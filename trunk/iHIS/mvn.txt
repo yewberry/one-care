@@ -1,0 +1,21 @@
+mvn dependency:copy-dependencies
+
+mvn jetty:run
+
+mvn eclipse:clean -D
+
+
+
+
+mvn install:install-file -DgroupId=org.springframework -DartifactId=spring-context -Dversion=3.0.6.RELEASE -Dpackaging=jar -Dfile=C:\java\spring-framework-3.0.6.RELEASE\dist\org.springframework.context-3.0.6.RELEASE.jar
+建一个 JAVA 项目 ： mvn archetype:create -DgroupId=com.test -DartifactId=App
+
+   建一个 web 项目 ： mvn archetype:create -DgroupId=com.test -DartifactId=web-app -DarchetypeArtifactId=maven-archetype-webapp
+   
+   在导入之前需要在项目根目录下面执行如下命令：
+
+ 普通 Eclipse 项目执行 ： mvn eclipse:eclipse Eclipse
+
+ web 项目执行 ： mvn eclipse:eclipse -Dwtpversion=1.0
+ 
+
