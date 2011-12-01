@@ -17,6 +17,8 @@ public class MessageProcessor {
 
 	protected TimeoutManager timeoutManager;
 
+	protected MessageRouter router;
+
 	private Map<String, MessageHandler> handlers = new Hashtable<String, MessageHandler>();
 
 	public MessageProcessor() {
@@ -29,14 +31,16 @@ public class MessageProcessor {
 	public void addHandler(MessageHandler handler) {
 		this.getHandlers().put(handler.getMessageCommand(), handler);
 		handler.setTimeoutManager(timeoutManager);
+		handler.setRouter(getRouter());
 	}
 
 	public void setHandlers(Map<String, MessageHandler> handlers) {
 		this.handlers = handlers;
 		if (this.handlers != null) {
 			for (MessageHandler handler : this.handlers.values()) {
-				if(handler.getTimeoutManager()==null){
+				if (handler.getTimeoutManager() == null) {
 					handler.setTimeoutManager(timeoutManager);
+					handler.setRouter(getRouter());
 				}
 			}
 		}
@@ -54,6 +58,14 @@ public class MessageProcessor {
 
 	public void setTimeoutManager(TimeoutManager timeoutManager) {
 		this.timeoutManager = timeoutManager;
+	}
+
+	public MessageRouter getRouter() {
+		return router;
+	}
+
+	public void setRouter(MessageRouter router) {
+		this.router = router;
 	}
 
 }
