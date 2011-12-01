@@ -1,5 +1,8 @@
 package com.abc.ihis.cp.message.handle;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 import org.apache.mina.core.session.IoSession;
 
 import com.abc.ihis.cp.message.Message;
@@ -14,19 +17,33 @@ public class MessageProcessor {
 
 	protected TimeoutManager timeoutManager;
 
-	protected MessageHandler handler;
+	private Map<String, MessageHandler> handlers = new Hashtable<String, MessageHandler>();
 
 	public MessageProcessor() {
-		// 构建消息处理责任链
-		MessageHandler handler = new HeartbeatHandler();
-		handler.setTimeoutManager(getTimeoutManager());
-		handler.chain(new ControllerConnectHandler());
-		// TODO 添加其他消息处理
+	}
 
+	public Map<String, MessageHandler> getHandlers() {
+		return handlers;
+	}
+
+	public void addHandler(MessageHandler handler) {
+		this.timeoutManager.addTimeoutListener(handler.getMessageCommand(),
+				handler);
+	}
+
+	public void setHandlers(Map<String, MessageHandler> handlers) {
+		this.handlers = handlers;
+		if (this.handlers != null) {
+			for (MessageHandler handler : this.handlers.values()) {
+				this.timeoutManager.addTimeoutListener(
+						handler.getMessageCommand(), handler);
+			}
+		}
 	}
 
 	public void process(IoSession session, Message message) {
-		// 开始处理
+		// 处理消息
+		MessageHandler handler = this.getHandlers().get(message.getCommand());
 		handler.handle(session, message);
 	}
 

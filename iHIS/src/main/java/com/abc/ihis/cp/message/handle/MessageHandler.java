@@ -5,27 +5,12 @@ import org.apache.mina.core.session.IoSession;
 import com.abc.ihis.cp.message.Message;
 
 /**
- * 采用责任链模式处理消息
- * 
  * @author chenkaihao
  * 
  */
-public abstract class MessageHandler implements TimeoutListener {
+public interface MessageHandler extends TimeoutListener {
 
-	protected TimeoutManager timeoutManager;
+	String getMessageCommand();
 
-	protected MessageHandler nextHandler;
-
-	public void setTimeoutManager(TimeoutManager timeoutManager) {
-		this.timeoutManager = timeoutManager;
-		this.timeoutManager.addTimeoutListener(this);
-	}
-
-	public abstract void handle(IoSession session, Message message);
-
-	public MessageHandler chain(MessageHandler handler) {
-		this.nextHandler = handler;
-		this.nextHandler.setTimeoutManager(timeoutManager);
-		return this.nextHandler;
-	}
+	void handle(IoSession session, Message message);
 }

@@ -4,6 +4,7 @@ import org.apache.mina.core.session.IoSession;
 
 import com.abc.ihis.cp.message.HeartbeatResponseMessage;
 import com.abc.ihis.cp.message.Message;
+import com.abc.ihis.cp.message.ProtocolCommands;
 
 /**
  * 心跳消息处理逻辑
@@ -11,19 +12,18 @@ import com.abc.ihis.cp.message.Message;
  * @author chenkaihao
  * 
  */
-public class HeartbeatHandler extends MessageHandler {
+public class HeartbeatHandler implements MessageHandler {
 
-	@Override
 	public void handle(IoSession session, Message message) {
-		if (message instanceof HeartbeatResponseMessage) {
-
-		} else {
-			this.nextHandler.handle(session, message);
-		}
+		
 	}
 
 	public void timeout(IoSession session, Message message) {
 
+	}
+
+	public String getMessageCommand() {
+		return ProtocolCommands.HEARTBEAT;
 	}
 
 }
