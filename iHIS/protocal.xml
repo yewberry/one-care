@@ -1,0 +1,56 @@
+<protocal>
+	<!-- 控制器向后台设备发送的注册信息 -->
+	<request>
+		<!-- 命令字 -->
+		<cmd>device-register</cmd>
+		<!-- 消息流水号 -->
+		<sequence>0001</sequence>
+		<!-- 控制器 -->
+		<controller>controller1</controller>
+		<!-- 后台服务器 -->
+		<server>server1</server>
+		<!-- 消息体 -->
+		<data>
+
+			<!-- 目标设备 -->
+			<device>d01</device>
+			<!-- 设备所在信道 -->
+			<channel>1</channel>
+			<!-- 时间 -->
+			<time>2011-11-20 16:00:00</time>
+		</data>
+	</request>
+
+	<!-- 注册信息回复 -->
+	<response>
+		<sequence>0001</sequence>
+		<controller>controller1</controller>
+		<server>server1</server>
+		<data>
+			<!-- 错误代码 -->
+			<code>000</code>
+			<!-- 错误描述,可选，当存在错误时，才有错误描述 -->
+			<error>success</error>
+		</data>
+	</response>
+
+	<!-- 控制器与后台之间的心跳消息 -->
+	<request>
+		<sequence>0002</sequence>
+		<controller>controller1</controller>
+		<server>server1</server>
+		<data>
+			<cmd>heart-beat</cmd>
+		</data>
+	</request>
+	<!-- 心跳回复消息 -->
+	<response>
+		<sequence>0002</sequence>
+		<controller>controller1</controller>
+		<server>server1</server>
+		<data>
+			<code>000</code>
+		</data>
+	</response>
+
+</protocal>
