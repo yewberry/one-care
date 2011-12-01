@@ -11,7 +11,6 @@
 		<server>server1</server>
 		<!-- 消息体 -->
 		<data>
-
 			<!-- 目标设备 -->
 			<device>d01</device>
 			<!-- 设备所在信道 -->
@@ -36,21 +35,18 @@
 
 	<!-- 控制器与后台之间的心跳消息 -->
 	<request>
+		<cmd>heartbeat</cmd>
 		<sequence>0002</sequence>
 		<controller>controller1</controller>
 		<server>server1</server>
-		<data>
-			<cmd>heart-beat</cmd>
-		</data>
 	</request>
 	<!-- 心跳回复消息 -->
 	<response>
+		<cmd>heartbeat</cmd>
 		<sequence>0002</sequence>
 		<controller>controller1</controller>
 		<server>server1</server>
-		<data>
-			<code>000</code>
-		</data>
+
 	</response>
 
 </protocal>
