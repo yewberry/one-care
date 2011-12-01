@@ -2,6 +2,7 @@ package com.abc.ihis.cp.message.handle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import com.abc.ihis.cp.message.Message;
  */
 public class TimeoutManager {
 	// 消息超时监听器
-	private List<TimeoutListener> timeoutListners = new ArrayList<TimeoutListener>();
+	private Map<String, List<TimeoutListener>> timeoutListners = new Hashtable<String, List<TimeoutListener>>();
 	// 按FIFO方式保存发送消息的流水号队列
 	private LinkedList<StoredSequence> requestMessageList = new LinkedList<StoredSequence>();
 	// 根据消息流水号保存消息
@@ -27,6 +28,7 @@ public class TimeoutManager {
 	private final static int TIMEOUT = 10000;
 	// 消息超时检测时间间隔，单位毫秒
 	private final static int SCAN_INTERVAL = 3000;
+
 	/**
 	 * 消息超时检测线程
 	 */
@@ -65,9 +67,14 @@ public class TimeoutManager {
 				message));
 	}
 
-	public void addTimeoutListener(TimeoutListener listener) {
-		if (!this.timeoutListners.contains(listener)) {
-			this.timeoutListners.add(listener);
+	public synchronized void addTimeoutListener(String msgCommand,
+			TimeoutListener listener) {
+		List<TimeoutListener> listeners = this.timeoutListners.get(msgCommand);
+		if (listeners == null) {
+			listeners = new ArrayList<TimeoutListener>(1);
+		}
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
 		}
 	}
 
@@ -91,8 +98,13 @@ public class TimeoutManager {
 	 * @param message
 	 */
 	private void notifyMessageTimeout(StoredMessage sm) {
-		for (TimeoutListener listener : timeoutListners) {
-			listener.timeout(sm.session, sm.message);
+		Message message = sm.message;
+		List<TimeoutListener> listeners = this.timeoutListners.get(message
+				.getCommand());
+		if (listeners != null) {
+			for (TimeoutListener listener : listeners) {
+				listener.timeout(sm.session, sm.message);
+			}
 		}
 	}
 

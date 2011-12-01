@@ -10,15 +10,19 @@ import com.abc.ihis.cp.message.Message;
  * @author chenkaihao
  * 
  */
-public class ControllerConnectHandler extends MessageHandler {
+public class ControllerConnectHandler implements MessageHandler {
 
-	@Override
 	public void handle(IoSession session, Message message) {
 
 	}
 
 	public void timeout(IoSession session, Message message) {
 
+	}
+
+	public String getMessageCommand() {
+		//TODO
+		return null;
 	}
 
 }
