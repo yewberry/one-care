@@ -8,9 +8,21 @@ import com.abc.ihis.cp.message.Message;
  * @author chenkaihao
  * 
  */
-public interface MessageHandler extends TimeoutListener {
+public abstract class MessageHandler implements TimeoutListener {
 
-	String getMessageCommand();
+	protected TimeoutManager timeoutManager;
 
-	void handle(IoSession session, Message message);
+	public abstract String getMessageCommand();
+
+	public abstract void handle(IoSession session, Message message);
+
+	public TimeoutManager getTimeoutManager() {
+		return timeoutManager;
+	}
+
+	public void setTimeoutManager(TimeoutManager timeoutManager) {
+		this.timeoutManager = timeoutManager;
+		this.timeoutManager.addTimeoutListener(getMessageCommand(), this);
+	}
+
 }

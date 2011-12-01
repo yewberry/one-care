@@ -12,7 +12,7 @@ import com.abc.ihis.cp.message.ProtocolCommands;
  * @author chenkaihao
  * 
  */
-public class HeartbeatHandler implements MessageHandler {
+public class HeartbeatHandler extends MessageHandler {
 
 	public void handle(IoSession session, Message message) {
 		

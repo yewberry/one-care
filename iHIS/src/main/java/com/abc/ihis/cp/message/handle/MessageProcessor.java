@@ -27,16 +27,17 @@ public class MessageProcessor {
 	}
 
 	public void addHandler(MessageHandler handler) {
-		this.timeoutManager.addTimeoutListener(handler.getMessageCommand(),
-				handler);
+		this.getHandlers().put(handler.getMessageCommand(), handler);
+		handler.setTimeoutManager(timeoutManager);
 	}
 
 	public void setHandlers(Map<String, MessageHandler> handlers) {
 		this.handlers = handlers;
 		if (this.handlers != null) {
 			for (MessageHandler handler : this.handlers.values()) {
-				this.timeoutManager.addTimeoutListener(
-						handler.getMessageCommand(), handler);
+				if(handler.getTimeoutManager()==null){
+					handler.setTimeoutManager(timeoutManager);
+				}
 			}
 		}
 	}
