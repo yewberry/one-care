@@ -10,7 +10,7 @@ import com.abc.ihis.cp.message.Message;
  * @author chenkaihao
  * 
  */
-public class ControllerConnectHandler implements MessageHandler {
+public class ControllerConnectHandler extends MessageHandler {
 
 	public void handle(IoSession session, Message message) {
 
@@ -21,7 +21,7 @@ public class ControllerConnectHandler implements MessageHandler {
 	}
 
 	public String getMessageCommand() {
-		//TODO
+		// TODO
 		return null;
 	}
 
